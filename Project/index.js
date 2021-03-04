@@ -1,71 +1,89 @@
 var app = new Vue({
-    el: '#miAplicacion',
+    el: '#appVue',
     data: {
-      nuevoRecordatorio: "",
-      listaRecordatorio: [],
-      isButtonDisabled: true
+        newNote: '',
+        list: [],
+        show: true,
+        filterSearch: ""
+    },
+    mounted() {
+        if(localStorage.taskList){
+            this.list = JSON.parse(localStorage.taskList);
+        }
+    },
+    methods: {
+        addNote: function () {
+            this.list.push({
+                title: this.newNote,
+                priority: 0,
+                completed: false
+            });
+            this.newNote = "";
+            this.actualizarLocalStorage();
+        }, 
+        cambiarEstado: function (position) {
+            if (this.list[position].completed) {
+                this.list[position].completed = false;
+                this.actualizarLocalStorage();
+            } else {
+                this.list[position].completed = true;
+                this.actualizarLocalStorage();
+            }
+        },
+        
+        borrarNota: function (position) {
+            this.list.splice(position, 1);
+            this.actualizarLocalStorage();
+        },
+
+        borrarNotasCompletadas: function () {
+           this.list = this.list.filter((note)=>{
+                return !note.completed;
+            })
+        },
+
+        actualizarLocalStorage: function(){
+            localStorage.taskList = JSON.stringify(this.list);
+        },
+
+       cambiarPrioridad: function(position){
+           this.list[position].priority+=1;
+           if(this.list[position].priority==3){
+                this.list[position].priority=0;
+           }
+           this.actualizarLocalStorage();
+       }
     },
 
-    methods:{
-        anadirRecordatorio: function(){
-            this.listaRecordatorio.push({
-                titulo:this.nuevoRecordatorio,
-                prioridad: 0,
-                fechaCreacion: new Date(),
-                completado: false,});
-                this.nuevoRecordatorio = "";
-            },
-        cambiarEstadoTarea: function(posicion){
-            // Muestra posicion de los elementos
-            /*console.log(posicion)*/
-
-            
-        },
-        eliminarTarea: function(posicion){
-            // Borrar elementos lista
-            this.listaRecordatorio.splice(posicion,1);
+    computed: {
+        
+        notasTotales: function () {
+            return this.list.length;
         },
 
-        cambiarCompletado: function(posicion) {
-            
-            if(this.listaRecordatorio[posicion].completado){
-                this.listaRecordatorio[posicion].completado=false;
-            } else {this.listaRecordatorio[posicion].completado=true};
-
-            console.log(this.listaRecordatorio[posicion].completado);
-                
-            
+        totalPendientes: function () {
+            let total = 0;
+            for (i = 0; i < this.list.length; i++) {
+                if (this.list[i].completed == false) {
+                    total++;
+                }
+            }
+            return total;
         },
-
-        /*teclaPulsada: function() {
-            if (this.nuevoRecordatorio.length>0)
-                this.isButtonDisabled = false;
-                else
-                    this.isButtonDisabled = true;
-    }, */
         
-        eliminarTareasCompletadas: function(posicion) {
-
-        for (i=0; i<this.listaRecordatorio.length; i++)
-            if(this.listaRecordatorio[i].completado)
-            this.listaRecordatorio.splice(i,1)
-        }
-},
-
-    computed:{
-       totalTareas: function(){
-
-          return this.listaRecordatorio.length;
-       },
-
-        totalPendientes: function(){
-        let total = 0;
+        filterList: function (){
+            if (this.filterSearch == "") {
+                return this.list;
+            }else{
+                return this.list.filter((note) => {
+                  if ((note.title.indexOf(this.filterSearch))>=0) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                })
+              }
+            }
         
-        for (i=0; i<this.listaRecordatorio.length; i++)
-            if(!this.listaRecordatorio[i].completado) total++;
-        
-        
-        return total;
     }
-    }
-  })
+})

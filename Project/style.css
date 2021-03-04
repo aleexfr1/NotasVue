@@ -1,0 +1,139 @@
+body{
+    height: 100vh;
+    background-color: rgb(255, 255, 255);
+}
+#vistaGeneral{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 1rem;
+    background-color: rgb(0, 132, 255);
+    text-align: center;
+    font-family:Arial, Helvetica, sans-serif;
+}
+h1{
+    color:white;
+}
+
+input{
+    width: 95vw;
+    height: 10vh;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+#filter{
+    width: 95vw;
+    height: 6vh;
+    padding: 0.3rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+#appVue{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+   
+}
+#card{
+    display: flex;
+    flex-wrap: wrap;
+    width: 85vw;
+    height: 7vw;
+    padding:2rem;
+    background-color: rgb(133, 133, 133);
+    color: rgb(0, 255, 191);
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+}
+.tareas{
+    width: 100vw ;
+    text-align: left;
+    color:white;
+    padding: 0;
+    padding-left: 2rem;
+    padding-right: 3rem;
+}
+
+
+
+.textoCheck{
+    font-size: 1.75rem;
+    color:rgb(0, 0, 0);
+}
+.checkbox {
+    width: 100%;
+    text-align: left;
+}
+label {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.checkbox-icon-wrapper {
+    background: rgb(0, 153, 255);
+    border: 0.1rem solid #ffffff;
+    border-radius: 1rem;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+}
+.checkbox-icon {
+    color: rgb(0, 0, 0);
+}
+input[type="checkbox"] {
+    display: none;
+}       
+.checkbox label input[type="checkbox"] + .checkbox-icon-wrapper > .checkbox-icon {
+    opacity: 0;
+    transform: scale(0.6);
+    width: 1rem;
+    transition: all .1s ease-in;
+    text-align: center;
+}
+.checkbox label input[type="checkbox"]:checked + .checkbox-icon-wrapper > .checkbox-icon {
+    transform: scale(0.6);
+    opacity: 1;
+    text-align: center;
+}
+
+.textoCheck{
+    margin-left: 0.5rem;
+}
+#fecha{
+    color: rgb(106, 106, 106);
+}
+button{
+    border-radius: 0.5rem;
+    color: rgb(106, 106, 106);
+    background-color: rgb(35, 35, 35);
+}
+#card{
+    align-items: center;
+    justify-content: space-between;
+}
+#borrar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+}
+#borrar i{
+    font-size: 2rem;
+    color:rgb(255, 255, 255);
+}
+
+.fade-enter-active,.fade-leave-active {
+    transition: opacity 0.5s;
+}
+
+.fade-enter,.fade-leave-to{
+    opacity: 0;
+}
+@media (max-width: 642px){
+    #card label{
+        width:30%;
+    }
+    #borrar{
+        height: 10rem;
+    }
+}

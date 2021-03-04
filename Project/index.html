@@ -1,25 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Recordatorio de Notas</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Css -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Vue -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
 </head>
 <body>
-    <div id="miAplicacion">
-        <input v-on:keyup.enter="anadirRecordatorio" v-on:keyup="teclaPulsada" v-model="nuevoRecordatorio">
-        <p>{{totalPendientes}} Tareas pendientes de {{totalTareas}} tareas totales</p>
-        <button v-on:click="anadirRecordatorio">Nuevo Recordatorio</button>
-        <button v-on:click="eliminarTareasCompletadas">Borrar tareas completadas</button>
-        <br> <br>
-        <div  v-for="(recordatorio, index) in listaRecordatorio" v-bind:key="recordatorio">
-            {{recordatorio.titulo}} La tarea tiene prioridad {{recordatorio.prioridad}} creado en {{recordatorio.fechaCreacion.getDate()}} y la tarea esta {{recordatorio.completado}}
-        <button v-on:click="eliminarTarea">Eliminar tarea</button>
-        <button v-on:click="cambiarCompletado(index)">¿Tarea Completada?</button>
-        <br>
+    <div id="vistaGeneral">
+        <div id="appVue">
+            
+
+            <div class="tareas">
+                <hr>
+                <p><i class="fa fa-tasks" style="font-size:1rem;color:rgb(0, 0, 0)"></i> {{totalPendientes}} Tareas pendientes de un total de {{notasTotales}}<br><br> <i v-on:click="borrarNotasCompletadas" class="fa fa-times" style="font-size:1rem;color:rgb(0, 0, 0)"></i> <strong>Borrar TODAS las tareas completadas</strong>
+                </p>
+                <hr>
+            </div>
+            <input id="filter" placeholder="Filtro de tareas" v-model="filterSearch">
+            <div class="recordatorio">
+            </div>
+            <input placeholder="Introduce tu tarea pendiente" v-model="newNote" v-on:keyup.enter="addNote"><transition-group name="fade">
+                <div id="card" v-for="(note,index) in filterList" v-bind:key="note.title+index">
+                    <div id="subcard" v-if="show">
+                        <div class="checkbox">
+                            <label>
+                                <input v-if="note.completed" checked type="checkbox" v-on:click="cambiarEstado(index)">
+                                <input v-if="!note.completed" type="checkbox" v-on:click="cambiarEstado(index)">
+
+                                <span class="checkbox-icon-wrapper">
+
+                                    <i class="checkbox-icon fa fa-check" style="font-size:2.2rem;"></i>
+                                </span>
+                                <span class="textoCheck">
+                                    {{note.title}}
+                                </span>
+                            </label>
+                        </div>
+                        <div id="fecha">
+                            <p style="color: rgb(0, 0, 0);;">Nivel de Prioridad:  
+                            <button v-if="note.priority==0" style="background-color: rgb(0, 151, 33);color:black; border-color: black;" v-on:click="cambiarPrioridad(index)">Baja</button>
+                            <button v-if="note.priority==1" style="background-color: rgb(255, 145, 0);color:black; border-color: black;" v-on:click="cambiarPrioridad(index)">Media</button>
+                            <button v-if="note.priority==2" style="background-color: rgb(255, 0, 0);color:black; border-color: black;" v-on:click="cambiarPrioridad(index)">Urgente</button></p>
+                        </div>
+                    </div>
+                    <div id="borrar" v-on:click="borrarNota(index)" v-on:click="show=!show" style="width:3rem;height:3rem;background-color:black;">
+                        <i id="trash" class="fa fa-times-circle" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </transition-group>
+        </div>
     </div>
-    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="index.js"></script>
 </body>
+
 </html>

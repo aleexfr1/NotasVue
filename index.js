@@ -48,7 +48,7 @@ var app = new Vue({
 
        cambiarPrioridad: function(position){
            this.list[position].priority+=1;
-           if(this.list[position].priority==3){
+           if(this.list[position].priority==4){
                 this.list[position].priority=0;
            }
            this.actualizarLocalStorage();
